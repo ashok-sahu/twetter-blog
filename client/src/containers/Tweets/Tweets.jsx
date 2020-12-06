@@ -10,6 +10,8 @@ import {
   Grid,
 } from "@material-ui/core";
 
+import BASE_URL from '../../utils/Axios'
+
 import CardComponent from "../../components/card/CardComponent";
 import Header from "../../components/header/TweetHeader";
 
@@ -24,19 +26,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Tweets = (props) => {
-    console.log(props,'props')
-  const classes = useStyles();
-  const Data = useSelector((state) => state.detail);
-  const dispatch = useDispatch();
-  const fetchData = async () => {
-    if (props.match.params.tweet) {
-      dispatch(TweetActions.detailTweet(props.match.params.tweet));
-    }
+    const [state,setState] = React.useState('')
+    const classes = useStyles();
+    // const dispatch = useDispatch();
+    const fetchData = async () => {
+      let id = props.match.params.tweet
+        await BASE_URL.get(`/tweet/${id}`).then(res=>{
+            console.log(res,"response")
+            setState(res.data.data.data)
+        }).catch(err=>console.log(err))
   };
   React.useEffect(() => {
-    fetchData();
-  }, [dispatch]);
-  console.log(Data,'adad')
+    fetchData()
+  }, []);
+  console.log(state,'state')
   return (
     <div>
       <Header />
@@ -61,25 +64,25 @@ const Tweets = (props) => {
             }}>
                 <div style={{color:'#fff'}}>
                     <span style={{color:'yellow'}}>created at : </span>
-                    {Data.resultData.created_at}
+                    {state.created_at === undefined ? 'no date' :state.created_at }
                 </div>
-                <div style={{color:'#fff'}}>
+                {/* <div style={{color:'#fff'}}>
                     <span style={{color:'yellow'}}>user name : </span>
-                    {Data.resultData.user.name}
-                </div>
+                    {state.user.name === undefined? 'no name' :state.user.name }
+                </div> */}
                 <div style={{color:'#fff'}}>
                     <span style={{color:'yellow'}}>text : </span>
-                    {Data.resultData.text}
+                    {state.text === undefined? 'no text': state.text }
                 </div>
-                <div style={{color:'#fff'}}>
+                {/* <div style={{color:'#fff'}}>
                     <span style={{color:'yellow'}}>user description : </span>
-                    {Data.resultData.user.description}
-                </div>
-                <div style={{color:'#fff'}}>
+                    {state.user.description === undefined ? 'no description' :state.user.description }
+                </div> */}
+                {/* <div style={{color:'#fff'}}>
                     <span style={{color:'yellow'}}>retweeted text : </span>
-                    {Data.resultData.retweeted_status.text}
+                    {state.retweeted_status.text===undefined ? 'no retweet':state.retweeted_status.text }
                 </div>
-                
+                 */}
             </div>
           </Grid>
         </Grid>

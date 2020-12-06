@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {Link} from 'react-router-dom'
 import * as SearchActions from "./HomepageActions";
 import {
   makeStyles,
@@ -17,19 +18,41 @@ import {
 
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import { Header } from "../../components/index";
+import CardComponent from "../../components/card/CardComponent";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
     backgroundColor: "#fff",
   },
+  mainContent: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    width: "100%",
+    height: "100%",
+  },
+  search: {
+    float: "right",
+    height: "250vh",
+    width: "30%",
+    display: "flex",
+    background: "#f0ebdf",
+    [theme.breakpoints.down("sm")]: {
+      height: 300,
+      display: "none",
+    },
+  },
   hero: {
+    // width:'100%',
+    float: "left",
     marginTop: "60px",
     backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https:images.unsplash.com/photo-1558981852-426c6c22a060?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80')`,
     height: "620px",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    position: "relative",
+    // position: "relative",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -39,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       height: 300,
       fontSize: "3em",
+      width: "100%",
     },
   },
   blogsContainer: {
@@ -50,6 +74,14 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     maxWidth: "100%",
+  },
+  Content: {
+    display: "flex",
+    flexDirection: "column",
+    width: "70%",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
   },
   media: {
     height: 240,
@@ -78,208 +110,47 @@ const Homepage = ({ location, history }) => {
   useEffect(() => {
     fetchData();
   }, [dispatch, history]);
-  console.log(userAuthData, "djnyk");
 
-  const handleChange = (e) => {
-    dispatch(SearchActions.searchInput(e.target.value));
-    console.log(e.target.value);
-  };
+  console.log(userAuthData.resultData);
+
   return (
     <div>
       <Header />
-      <Box className={classes.hero}>
-        <Box>Tweety Blog</Box>
-      </Box>
-      <Container maxWidth="lg" className={classes.blogsContainer}>
-        <Typography variant="h4" className={classes.blogTitle}>
-          Articles
-        </Typography>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card className={classes.card}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  image="https:images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                  title="Contemplative Reptile"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    React useContext
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    Lizards are a widespread group of squamate reptiles, with
-                    over 6,000 species, ranging across all continents except
-                    Antarctica
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions className={classes.cardActions}>
-                <Box className={classes.author}>
-                  <Avatar src="https:images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
-                  <Box ml={2}>
-                    <Typography variant="subtitle2" component="p">
-                      Guy Clemons
-                    </Typography>
-                    <Typography
-                      variant="subtitle2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      May 14, 2020
-                    </Typography>
-                  </Box>
-                </Box>
-                <Box>
-                  <BookmarkBorderIcon />
-                </Box>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card className={classes.card}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  image="https:images.pexels.com/photos/34600/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                  title="Contemplative Reptile"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    React Router
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    Lizards are a widespread group of squamate reptiles, with
-                    over 6,000 species, ranging across all continents except
-                    Antarctica
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions className={classes.cardActions}>
-                <Box className={classes.author}>
-                  <Avatar src="https:images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2734&q=80" />
-                  <Box ml={2}>
-                    <Typography variant="subtitle2" component="p">
-                      Guy Clemons
-                    </Typography>
-                    <Typography
-                      variant="subtitle2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      May 14, 2020
-                    </Typography>
-                  </Box>
-                </Box>
-                <Box>
-                  <BookmarkBorderIcon />
-                </Box>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card className={classes.card}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  image="https:images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                  title="Contemplative Reptile"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    React useContext
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    Lizards are a widespread group of squamate reptiles, with
-                    over 6,000 species, ranging across all continents except
-                    Antarctica
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions className={classes.cardActions}>
-                <Box className={classes.author}>
-                  <Avatar src="https:images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
-                  <Box ml={2}>
-                    <Typography variant="subtitle2" component="p">
-                      Guy Clemons
-                    </Typography>
-                    <Typography
-                      variant="subtitle2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      May 14, 2020
-                    </Typography>
-                  </Box>
-                </Box>
-                <Box>
-                  <BookmarkBorderIcon />
-                </Box>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card className={classes.card}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  image="https:images.pexels.com/photos/325111/pexels-photo-325111.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                  title="Contemplative Reptile"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    React useContext
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    Lizards are a widespread group of squamate reptiles, with
-                    over 6,000 species, ranging across all continents except
-                    Antarctica
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions className={classes.cardActions}>
-                <Box className={classes.author}>
-                  <Avatar src="https:images.unsplash.com/photo-1584999734482-0361aecad844?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1100&q=80" />
-                  <Box ml={2}>
-                    <Typography variant="subtitle2" component="p">
-                      Guy Clemons
-                    </Typography>
-                    <Typography
-                      variant="subtitle2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      May 14, 2020
-                    </Typography>
-                  </Box>
-                </Box>
-                <Box>
-                  <BookmarkBorderIcon />
-                </Box>
-              </CardActions>
-            </Card>
-          </Grid>
-        </Grid>
-        <Box my={4} className={classes.paginationContainer}>
-          {/* <Pagination count={10} /> */}
+      <Box className={classes.mainContent}>
+        <Box className={classes.Content}>
+          <Box className={classes.hero}>
+            <Box>Tweety Blog</Box>
+          </Box>
+          <Container maxWidth="lg" className={classes.blogsContainer}>
+            <Typography variant="h4" className={classes.blogTitle}>
+              Articles
+            </Typography>
+            <Grid container spacing={3} >
+              {userAuthData.resultData.map((elm,key)=><Grid item xs={12} sm={6} md={4}>
+                <Link to={`tweet/${elm.user.id}`} style={{textDecoration:'none'}}>
+                <CardComponent metaData={elm} />  
+                </Link>
+              </Grid>)
+              }
+            </Grid>
+            <Box my={4} className={classes.paginationContainer}>
+              {/* <Pagination count={10} /> */}
+            </Box>
+          </Container>
         </Box>
-      </Container>
+        <Box className={classes.search}>
+          <div
+            style={{
+              marginTop: "50px",
+              textAlign: "center",
+              width: "100%",
+            }}
+          >
+            Search results
+          </div>
+          <div></div>
+        </Box>
+      </Box>
     </div>
   );
 };

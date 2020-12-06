@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
     "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
   }, 
   withCredentials: false,
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://twitter-blog.herokuapp.com",
 });
 
 export default axiosInstance;

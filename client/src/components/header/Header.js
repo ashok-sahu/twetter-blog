@@ -1,5 +1,6 @@
 import React from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Slide,
   useScrollTrigger,
@@ -15,6 +16,8 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
+
+import * as SearchActions from '../../containers/Homepage/HomepageActions'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -94,6 +97,18 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const dispatch = useDispatch();
+  const fetchData = async () => {
+    dispatch(SearchActions.allTweets());
+  };
+  React.useEffect(() => {
+    fetchData();
+  }, [dispatch]);
+
+  const handleChange = (e) => {
+    dispatch(SearchActions.searchInput(e.target.value));
+    console.log(e.target.value);
+  };
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -146,6 +161,7 @@ export default function PrimarySearchAppBar() {
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
+                onChange={(e)=>handleChange(e)}
                 inputProps={{ "aria-label": "search" }}
               />
             </div>

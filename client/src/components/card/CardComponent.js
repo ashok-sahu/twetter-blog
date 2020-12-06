@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const CardComponent = (props) => {
-    console.log(props.metaData,'metadata')
   const classes = useStyles();
     return <Card className={classes.card}>
     <CardActionArea>

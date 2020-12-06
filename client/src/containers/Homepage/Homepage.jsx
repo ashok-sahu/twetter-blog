@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import * as SearchActions from "./HomepageActions";
 import {
   makeStyles,
@@ -9,11 +9,6 @@ import {
   Box,
   Container,
   Grid,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia,
 } from "@material-ui/core";
 
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
@@ -34,9 +29,10 @@ const useStyles = makeStyles((theme) => ({
   },
   search: {
     float: "right",
-    height: "250vh",
+    height: "425vh",
     width: "30%",
     display: "flex",
+    flexDirection: "column",
     background: "#f0ebdf",
     [theme.breakpoints.down("sm")]: {
       height: 300,
@@ -102,16 +98,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Homepage = ({ location, history }) => {
   const classes = useStyles();
-  const userAuthData = useSelector((state) => state.search);
+  const userAuthData = useSelector((state) => state.allTweet);
+  const searchData = useSelector((state) => state.search);
+  const Data = useSelector((state) => state.detail);
   const dispatch = useDispatch();
-  const fetchData = async () => {
-    dispatch(SearchActions.searchInput());
-  };
-  useEffect(() => {
-    fetchData();
-  }, [dispatch, history]);
+  useEffect(() => {}, [dispatch, history]);
 
-  console.log(userAuthData.resultData);
+  console.log(searchData.resultData, "searchdata");
 
   return (
     <div>
@@ -125,13 +118,17 @@ const Homepage = ({ location, history }) => {
             <Typography variant="h4" className={classes.blogTitle}>
               Articles
             </Typography>
-            <Grid container spacing={3} >
-              {userAuthData.resultData.map((elm,key)=><Grid item xs={12} sm={6} md={4}>
-                <Link to={`tweet/${elm.user.id}`} style={{textDecoration:'none'}}>
-                <CardComponent metaData={elm} />  
-                </Link>
-              </Grid>)
-              }
+            <Grid container spacing={3}>
+              {userAuthData.resultData.map((elm, key) => (
+                <Grid item xs={12} sm={6} md={4}>
+                  <Link
+                    to={`tweet/${elm.id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <CardComponent metaData={elm} />
+                  </Link>
+                </Grid>
+              ))}
             </Grid>
             <Box my={4} className={classes.paginationContainer}>
               {/* <Pagination count={10} /> */}
@@ -148,7 +145,61 @@ const Homepage = ({ location, history }) => {
           >
             Search results
           </div>
-          <div></div>
+          {!searchData.resultData ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "10px",
+                background: "#fff",
+                border: "1px solid #ooo",
+                borderRadius: "10px",
+                margin: "10px",
+                justifyContent: "center",
+                alignItems: "center",
+                color: "red",
+              }}
+            >
+              "not searched...."
+            </div>
+          ) : (
+            searchData.resultData.map((elm, key) => (
+              <Link to={`tweet/${elm.id}`} style={{ textDecoration: "none" }}>
+                <div
+                  key={key}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    padding: "10px",
+                    background: "#fff",
+                    border: "1px solid #ooo",
+                    borderRadius: "10px",
+                    margin: "10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <div
+                    style={{
+                      color: "green",
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {elm.id}
+                  </div>
+                  <div
+                    style={{
+                      color: "gray",
+                      fontSize: "10px",
+                      fontWeight: "normal",
+                    }}
+                  >
+                    {elm.text}
+                  </div>
+                </div>
+              </Link>
+            ))
+          )}
         </Box>
       </Box>
     </div>

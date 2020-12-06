@@ -7,18 +7,18 @@ export const searchInput = (inputText) => async (dispatch, getState) => {
         dispatch({ type:SearchConstants.SEARCH_START});
         await BASE_URL.post('/search',{query:inputText}).then(res=>{
             console.log(res)
-            const searchResults = res.data.data.data.statuses
+            const searchResults = res.data.data.data
             console.log(searchResults) 
             dispatch({
                 type:SearchConstants.SEARCH_SUCCESS,
                 payload:searchResults
             })
-            dispatch(success)
+            // dispatch(success)
         })
     }catch(err){
         console.error(err.response,'error')
         dispatch({
-            type:SearchConstants.SEARCH_FAILED,
+            type:SearchConstants.SEARCH_FAIL,
             payload:err
         })
     }
@@ -26,20 +26,20 @@ export const searchInput = (inputText) => async (dispatch, getState) => {
 
 export const allTweets = () =>async(dispatch,getState)=>{
     try{
-        dispatch({ type:SearchConstants.SEARCH_START});
+        dispatch({ type:SearchConstants.ALLTWEET_START});
         await BASE_URL.get('/allTweets').then(res=>{
             console.log(res)
             const searchResults = res.data.data.data.statuses
             console.log(searchResults) 
             dispatch({
-                type:SearchConstants.SEARCH_SUCCESS,
+                type:SearchConstants.ALLTWEET_SUCCESS,
                 payload:searchResults
             })
         })
     }catch(err){
         console.error(err.response,'error')
         dispatch({
-            type:SearchConstants.SEARCH_FAILED,
+            type:SearchConstants.ALLTWEET_FAILED,
             payload:err
         })
     }
